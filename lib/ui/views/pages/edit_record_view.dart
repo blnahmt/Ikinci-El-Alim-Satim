@@ -1,0 +1,307 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:ikinci_el/core/database/firebase_storage.dart';
+import 'package:ikinci_el/core/database/firestore.dart';
+import 'package:ikinci_el/core/enums/category_enum.dart';
+import 'package:ikinci_el/core/extentions/context_extentions.dart';
+import 'package:ikinci_el/core/extentions/padding_extentions.dart';
+import 'package:ikinci_el/core/extentions/radius_extentions.dart';
+import 'package:ikinci_el/core/helpers/image_picker.dart';
+import 'package:ikinci_el/core/models/record_detail.dart';
+import 'package:ikinci_el/core/providers/auth_provider.dart';
+import 'package:ikinci_el/ui/widgets/buttons/filled_buttons.dart';
+import 'package:ikinci_el/ui/widgets/buttons/go_back_button.dart';
+import 'package:ikinci_el/ui/widgets/buttons/simple_button.dart';
+import 'package:ikinci_el/ui/widgets/inputs/normal_input.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
+
+import '../../../core/navigation/navigation_service.dart';
+import '../../widgets/inputs/price_input.dart';
+
+class EditRecordView extends StatefulWidget {
+  const EditRecordView({super.key, required this.recordDetail});
+  final RecordDetail recordDetail;
+
+  @override
+  State<EditRecordView> createState() => _EditRecordViewState();
+}
+
+class _EditRecordViewState extends State<EditRecordView> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+
+  Categories _categoryValue = Categories.araba;
+  final MapController _mapController = MapController();
+  LatLng _pos = LatLng(41.2060, 28.9648);
+  String _adresString = "Seçili Değil";
+  late final RecordDetail record;
+
+  bool _isLoading = false;
+  changeIsLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    record = widget.recordDetail;
+    _titleController.text = record.title ?? "";
+    _descriptionController.text = record.description ?? "";
+    _priceController.text = record.price.toString();
+    _categoryValue = record.category ?? Categories.araba;
+    _pos = LatLng(record.location!.latitude, record.location!.longitude);
+    _getAddressFromLatLng(_pos.latitude, _pos.longitude);
+  }
+
+  Future<void> _determinePosition() async {
+    changeIsLoading();
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    Position tempPos = await Geolocator.getCurrentPosition();
+
+    await _getAddressFromLatLng(tempPos.latitude, tempPos.longitude);
+    setState((() {
+      _pos = LatLng(tempPos.latitude, tempPos.longitude);
+      _mapController.move(_pos, _mapController.zoom);
+    }));
+    changeIsLoading();
+  }
+
+  Future<void> _getAddressFromLatLng(double latitude, double longitude) async {
+    await placemarkFromCoordinates(latitude, longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _adresString =
+            'Adres : ${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: GoBackButton(),
+        iconTheme: context.themeData.iconTheme,
+        title: Text("İlanı Düzenle"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("İlanı silmek istediğinizden emin misiniz ?"),
+                      actions: [
+                        TextButton(
+                            onPressed: () async {
+                              await FirestoreManager()
+                                  .deleteRecord(record.iid!);
+                              NavigationService().back();
+                              NavigationService().back();
+                            },
+                            child: Text("Onayla")),
+                        TextButton(
+                            onPressed: () => NavigationService().back(),
+                            child: Text("İptal"))
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: Icon(Icons.delete))
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: context.paddingNormalAll,
+        child: Form(
+          key: _formKey,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Text("Ürün Bilgisi"),
+            const SizedBox(height: 16),
+            NormalInput(controller: _titleController, label: "Ürün Başlığı"),
+            const SizedBox(height: 8),
+            NormalInput(
+              controller: _descriptionController,
+              label: "Ürün Bilgisi",
+              line: 4,
+            ),
+            SizedBox(height: 8),
+            const Text("Kategori"),
+            const SizedBox(height: 4),
+            buildKategori(context),
+            const SizedBox(height: 8),
+            const Text("Konum Seç"),
+            const SizedBox(height: 4),
+            buildKonum(context),
+            const SizedBox(height: 16),
+            PriceInput(controller: _priceController, label: "Fiyat"),
+            const SizedBox(height: 8),
+            const SizedBox(height: 32),
+            FilledButton(
+                isLoading: _isLoading,
+                onTap: () async {
+                  changeIsLoading();
+                  if (_formKey.currentState!.validate()) {
+                    RecordDetail temp = RecordDetail()
+                      ..id = record.id
+                      ..title = _titleController.text
+                      ..description = _descriptionController.text
+                      ..category = _categoryValue
+                      ..iid = record.iid
+                      ..location = GeoPoint(_pos.latitude, _pos.longitude)
+                      ..price = int.parse(_priceController.text)
+                      ..dateAdded = record.dateAdded
+                      ..images = record.images
+                      ..uid = record.uid;
+
+                    await FirestoreManager().updateRecord(temp);
+                    NavigationService().back();
+                  }
+                  changeIsLoading();
+                },
+                label: "Kaydet")
+          ]),
+        ),
+      ),
+    );
+  }
+
+  Container buildKategori(BuildContext context) {
+    return Container(
+      padding: context.paddingNormalHorizontal,
+      decoration: BoxDecoration(
+          color: context.themeData.cardColor, borderRadius: context.radiusLow),
+      child: DropdownButton<String>(
+          borderRadius: context.radiusLow,
+          dropdownColor: context.themeData.cardColor,
+          underline: const SizedBox.shrink(),
+          value: _categoryValue.name,
+          items: Categories.values
+              .map((e) => DropdownMenuItem<String>(
+                  value: e.name,
+                  child: Row(
+                    children: [
+                      e.icon,
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(e.label)
+                    ],
+                  )))
+              .toList(),
+          onChanged: ((value) {
+            setState(() {
+              _categoryValue = Categories.values.byName(value!);
+            });
+          })),
+    );
+  }
+
+  Container buildKonum(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: context.themeData.cardColor, borderRadius: context.radiusLow),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                    color: context.themeData.cardColor,
+                    borderRadius: context.radiusLow),
+                child: FlutterMap(
+                  mapController: _mapController,
+                  options: MapOptions(
+                    center: _pos,
+                    zoom: 12,
+                    onPointerUp: (event, point) {
+                      setState(() {
+                        _pos = point;
+                      });
+                      _getAddressFromLatLng(_pos.latitude, _pos.longitude);
+                    },
+                    onPositionChanged: (position, hasGesture) {},
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.example.app',
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Icon(
+                  Icons.location_on,
+                  color: context.colorScheme.primary,
+                  size: 42,
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: context.paddingLowOnly(top: true, right: true, left: true),
+            child: Text(_adresString),
+          ),
+          Padding(
+            padding: context.paddingLowAll,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: FittedBox(
+                child: SimpleButton(
+                  isLoading: _isLoading,
+                  label: "Mevcut Konumu Seç",
+                  onTap: () async {
+                    await _determinePosition();
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
