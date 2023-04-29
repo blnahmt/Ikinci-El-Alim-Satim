@@ -1,6 +1,6 @@
 # ikinci_el
 
-A new Flutter project.
+An application for buying/selling second hand products with flutter and firebase
 
 ## Getting Started
 
