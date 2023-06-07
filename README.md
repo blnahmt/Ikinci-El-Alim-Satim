@@ -1,6 +1,15 @@
-# ikinci_el
+# İkinci El Alım Satım
 
-An application for buying/selling second hand products with flutter and firebase
+A secondhand sell/buy app made with Flutter. This App was created to train my skills in Flutter
+
+## Screenshots
+
+![App Screenshot](/screenshots/1.png)
+![App Screenshot](/screenshots/2.png)
+![App Screenshot](/screenshots/3.png)
+![App Screenshot](/screenshots/4.png)
+![App Screenshot](/screenshots/5.png)
+![App Screenshot](/screenshots/6.png)
 
 ## Getting Started
 
