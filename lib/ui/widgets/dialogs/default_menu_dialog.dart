@@ -16,7 +16,7 @@ class DefaultMenuDialog<T extends Widget> extends StatelessWidget {
       titlePadding: context.paddingMediumAll,
       title: Text(
         title,
-        style: context.primarytTextTheme.bodyText1,
+        style: context.primarytTextTheme.bodyLarge,
       ),
       contentPadding: context.paddingLowOnly(bottom: true),
       scrollable: true,

@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ikinci_el/core/cache/cache_manager.dart';
+import 'package:ikinci_el/core/constants/colors.dart';
 import 'package:ikinci_el/core/database/firestore.dart';
 import 'package:ikinci_el/core/enums/category_enum.dart';
 import 'package:ikinci_el/core/enums/sort_types_enum.dart';
@@ -13,12 +13,10 @@ import 'package:ikinci_el/core/models/user_detail.dart';
 import 'package:ikinci_el/core/navigation/navigation_service.dart';
 import 'package:ikinci_el/core/navigation/routes.dart';
 import 'package:ikinci_el/core/providers/auth_provider.dart';
-import 'package:ikinci_el/ui/widgets/buttons/filled_buttons.dart';
 import 'package:ikinci_el/ui/widgets/loading/loading.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/buttons/simple_button.dart';
-import '../../widgets/dialogs/default_menu_dialog.dart';
 import '../../widgets/inputs/search_input.dart';
 
 class HomeView extends StatefulWidget {
@@ -158,7 +156,7 @@ class _HomeViewState extends State<HomeView>
         },
         label: Text(
           "Sat",
-          style: context.textTheme.headline6
+          style: context.textTheme.headlineSmall
               ?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
         ),
         icon: const Icon(
@@ -175,7 +173,7 @@ class _HomeViewState extends State<HomeView>
             child: DropdownButton<int>(
               hint: Text(
                 filtrele,
-                style: context.themeData.accentTextTheme.bodyLarge,
+                style: context.themeData.textTheme.bodyLarge?.copyWith(color: AppColors.fieryRose),
               ),
               elevation: 0,
               borderRadius: context.radiusLow,
@@ -280,7 +278,6 @@ class _RecordTileHomeState extends State<RecordTileHome> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setUser();
   }

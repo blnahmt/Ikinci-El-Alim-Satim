@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ikinci_el/core/auth/auth_manager.dart';
+import 'package:ikinci_el/core/constants/colors.dart';
 import 'package:ikinci_el/core/enums/app_images_enum.dart';
 import 'package:ikinci_el/core/extentions/context_extentions.dart';
 import 'package:ikinci_el/core/extentions/padding_extentions.dart';
-import 'package:ikinci_el/core/extentions/radius_extentions.dart';
 import 'package:ikinci_el/core/navigation/navigation_service.dart';
 import 'package:ikinci_el/core/navigation/routes.dart';
 import 'package:ikinci_el/core/providers/auth_provider.dart';
@@ -70,7 +70,7 @@ class _SignUPViewState extends State<SignUPView> {
                       controller: _passwordController,
                     ),
                   ),
-                  FilledButton(
+                  MyFilledButton(
                       isLoading: isLoading,
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
@@ -92,10 +92,10 @@ class _SignUPViewState extends State<SignUPView> {
                                     content: Text(
                                       "Daha güçlü bir şifre giriniz.",
                                       style: context
-                                          .themeData.accentTextTheme.bodyLarge,
+                                          .themeData.textTheme.bodyLarge?.copyWith(color: AppColors.fieryRose),
                                     ),
                                     actions: [
-                                      FilledButton(
+                                      MyFilledButton(
                                           onTap: (() =>
                                               NavigationService().back()),
                                           label: "Kapat")
@@ -111,14 +111,14 @@ class _SignUPViewState extends State<SignUPView> {
                                     content: Text(
                                       "Bu Email ile oluşturulmuş bir kullanıcı mevcut. Giriş yapmak ister misiniz ?",
                                       style: context
-                                          .themeData.accentTextTheme.bodyLarge,
+                                          .themeData.textTheme.bodyLarge?.copyWith(color: AppColors.fieryRose),
                                     ),
                                     actions: [
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: [
-                                          FilledButton(
+                                          MyFilledButton(
                                               onTap: (() => NavigationService()
                                                   .clearAllTo(
                                                       routeName:
@@ -127,7 +127,7 @@ class _SignUPViewState extends State<SignUPView> {
                                           Padding(
                                             padding: context.paddingNormalOnly(
                                                 left: true),
-                                            child: FilledButton(
+                                            child: MyFilledButton(
                                                 onTap: (() =>
                                                     NavigationService().back()),
                                                 label: "Kapat"),
@@ -178,8 +178,8 @@ class _SignUPViewState extends State<SignUPView> {
                               .clearAllTo(routeName: Routes.signin)),
                           child: Text(
                             "Giriş Yap",
-                            style: context.themeData.accentTextTheme.bodyMedium!
-                                .copyWith(fontWeight: FontWeight.bold),
+                            style: context.themeData.textTheme.bodyMedium!
+                                .copyWith(color: AppColors.fieryRose,fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],

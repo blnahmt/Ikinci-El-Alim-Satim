@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ikinci_el/core/constants/colors.dart';
 import 'package:ikinci_el/core/extentions/context_extentions.dart';
 import 'package:ikinci_el/core/extentions/padding_extentions.dart';
-import 'package:ikinci_el/core/extentions/radius_extentions.dart';
 import 'package:ikinci_el/ui/widgets/loading/loading.dart';
 
 class SimpleButton extends StatelessWidget {
@@ -27,8 +27,8 @@ class SimpleButton extends StatelessWidget {
                 )
               : Text(
                   label,
-                  style: context.themeData.accentTextTheme.bodyLarge!
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: context.themeData.textTheme.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.bold,color: AppColors.fieryRose),
                 ),
         ),
       ),

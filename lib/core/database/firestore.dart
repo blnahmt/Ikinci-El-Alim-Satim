@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ikinci_el/core/enums/category_enum.dart';
 import 'package:ikinci_el/core/enums/collections_enum.dart';

@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ikinci_el/core/auth/auth_manager.dart';
-import 'package:ikinci_el/core/database/firestore.dart';
+import 'package:ikinci_el/core/constants/colors.dart';
 import 'package:ikinci_el/core/extentions/context_extentions.dart';
 import 'package:ikinci_el/core/extentions/padding_extentions.dart';
-import 'package:ikinci_el/core/extentions/radius_extentions.dart';
 import 'package:ikinci_el/core/navigation/navigation_service.dart';
 import 'package:ikinci_el/core/navigation/routes.dart';
 import 'package:ikinci_el/ui/widgets/buttons/filled_buttons.dart';
@@ -74,7 +73,7 @@ class _SignINViewState extends State<SignINView> {
                       controller: _passwordController,
                     ),
                   ),
-                  FilledButton(
+                  MyFilledButton(
                     isLoading: isLoading,
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
@@ -93,10 +92,10 @@ class _SignINViewState extends State<SignINView> {
                                 content: Text(
                                   "Email veya şifre hatalı !!",
                                   style: context
-                                      .themeData.accentTextTheme.bodyLarge,
+                                      .themeData.textTheme.bodyLarge?.copyWith(color: AppColors.fieryRose),
                                 ),
                                 actions: [
-                                  FilledButton(
+                                  MyFilledButton(
                                       onTap: (() => NavigationService().back()),
                                       label: "Kapat")
                                 ],
@@ -172,7 +171,7 @@ class _SignINViewState extends State<SignINView> {
                                                 },
                                               );
                                               NavigationService().back();
-                                            } on FirebaseException catch (e) {
+                                            } on FirebaseException catch (_) {
                                               showModalBottomSheet(
                                                 context: context,
                                                 builder: (context) {
@@ -209,8 +208,8 @@ class _SignINViewState extends State<SignINView> {
                               .clearAllTo(routeName: Routes.signup)),
                           child: Text(
                             "Kayıt Ol",
-                            style: context.themeData.accentTextTheme.bodyMedium!
-                                .copyWith(fontWeight: FontWeight.bold),
+                            style: context.themeData.textTheme.bodyMedium!
+                                .copyWith(color: AppColors.fieryRose,fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],

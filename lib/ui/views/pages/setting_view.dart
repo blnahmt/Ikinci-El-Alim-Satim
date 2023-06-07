@@ -81,11 +81,6 @@ class _BluetoothDevicesState extends State<BluetoothDevices> {
       changeIsLoading();
       flutterBlue.startScan(timeout: Duration(seconds: 4));
 
-      var subscription = flutterBlue.scanResults.listen((results) {
-        setState(() {
-          devices = results;
-        });
-      });
 
       flutterBlue.stopScan();
       changeIsLoading();
@@ -104,7 +99,7 @@ class _BluetoothDevicesState extends State<BluetoothDevices> {
               Text(isON ? "Bluetooth açık" : "Bluetooth kapalı"),
               isLoading ? Loading() : SizedBox.shrink(),
               !isON
-                  ? FilledButton(
+                  ? MyFilledButton(
                       onTap: () {
                         BluetoothEnable.enableBluetooth.then((result) {
                           if (result == "true") {

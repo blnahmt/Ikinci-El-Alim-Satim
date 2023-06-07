@@ -6,6 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ikinci_el/core/constants/colors.dart';
 import 'package:ikinci_el/core/database/firebase_storage.dart';
 import 'package:ikinci_el/core/database/firestore.dart';
 import 'package:ikinci_el/core/enums/category_enum.dart';
@@ -153,7 +154,7 @@ class _AddNewRecordViewState extends State<AddNewRecordView> {
             PriceInput(controller: _priceController, label: "Fiyat"),
             const SizedBox(height: 8),
             const SizedBox(height: 32),
-            FilledButton(
+            MyFilledButton(
                 isLoading: _isLoading,
                 onTap: () async {
                   changeIsLoading();
@@ -202,10 +203,10 @@ class _AddNewRecordViewState extends State<AddNewRecordView> {
                             content: Text(
                               "En az bir adet resim seçiniz !!",
                               style:
-                                  context.themeData.accentTextTheme.bodyLarge,
+                                  context.themeData.textTheme.bodyLarge?.copyWith(color: AppColors.fieryRose),
                             ),
                             actions: [
-                              FilledButton(
+                              MyFilledButton(
                                   onTap: (() => NavigationService().back()),
                                   label: "Kapat")
                             ],

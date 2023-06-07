@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ikinci_el/core/auth/auth_manager.dart';
 import 'package:ikinci_el/core/models/record_detail.dart';

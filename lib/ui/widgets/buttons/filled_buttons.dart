@@ -4,8 +4,8 @@ import 'package:ikinci_el/core/extentions/padding_extentions.dart';
 import 'package:ikinci_el/core/extentions/radius_extentions.dart';
 import 'package:ikinci_el/ui/widgets/loading/loading.dart';
 
-class FilledButton extends StatelessWidget {
-  const FilledButton(
+class MyFilledButton extends StatelessWidget {
+  const MyFilledButton(
       {Key? key,
       required this.onTap,
       required this.label,

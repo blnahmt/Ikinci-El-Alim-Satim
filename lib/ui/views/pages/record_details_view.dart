@@ -230,7 +230,7 @@ class _RecordDetailViewState extends State<RecordDetailView> {
                           ? SizedBox.shrink()
                           : Padding(
                               padding: context.paddingHighOnly(bottom: true),
-                              child: FilledButton(
+                              child: MyFilledButton(
                                   onTap: (() {
                                     launchUrl(Uri.parse(
                                         'tel:${widget.user.phoneNumber}'));

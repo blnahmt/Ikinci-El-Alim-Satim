@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,21 +5,17 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:ikinci_el/core/database/firebase_storage.dart';
 import 'package:ikinci_el/core/database/firestore.dart';
 import 'package:ikinci_el/core/enums/category_enum.dart';
 import 'package:ikinci_el/core/extentions/context_extentions.dart';
 import 'package:ikinci_el/core/extentions/padding_extentions.dart';
 import 'package:ikinci_el/core/extentions/radius_extentions.dart';
-import 'package:ikinci_el/core/helpers/image_picker.dart';
 import 'package:ikinci_el/core/models/record_detail.dart';
-import 'package:ikinci_el/core/providers/auth_provider.dart';
 import 'package:ikinci_el/ui/widgets/buttons/filled_buttons.dart';
 import 'package:ikinci_el/ui/widgets/buttons/go_back_button.dart';
 import 'package:ikinci_el/ui/widgets/buttons/simple_button.dart';
 import 'package:ikinci_el/ui/widgets/inputs/normal_input.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/navigation/navigation_service.dart';
 import '../../widgets/inputs/price_input.dart';
@@ -172,7 +167,7 @@ class _EditRecordViewState extends State<EditRecordView> {
             PriceInput(controller: _priceController, label: "Fiyat"),
             const SizedBox(height: 8),
             const SizedBox(height: 32),
-            FilledButton(
+            MyFilledButton(
                 isLoading: _isLoading,
                 onTap: () async {
                   changeIsLoading();

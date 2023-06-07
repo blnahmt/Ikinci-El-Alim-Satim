@@ -21,14 +21,7 @@ class AppTheme {
       bodyMedium: TextStyle(color: AppColors.cadetBlue),
       bodySmall: TextStyle(color: AppColors.cadetBlue),
     ),
-    accentTextTheme: const TextTheme(
-      headlineLarge: TextStyle(color: AppColors.fieryRose),
-      headlineMedium: TextStyle(color: AppColors.fieryRose),
-      headlineSmall: TextStyle(color: AppColors.fieryRose),
-      bodyLarge: TextStyle(color: AppColors.fieryRose),
-      bodyMedium: TextStyle(color: AppColors.fieryRose),
-      bodySmall: TextStyle(color: AppColors.fieryRose),
-    ),
+    
     cardColor: AppColors.lightSilver2,
     cardTheme: CardTheme(
         elevation: 0,
@@ -48,7 +41,7 @@ class AppTheme {
             fontWeight: FontWeight.w400,
             fontFamily: "QuickSand",
             fontSize: 22)),
-    backgroundColor: Colors.white,
+    
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.fieryRose),
     scaffoldBackgroundColor: Colors.white,

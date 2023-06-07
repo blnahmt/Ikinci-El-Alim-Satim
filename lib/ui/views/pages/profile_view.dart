@@ -5,7 +5,6 @@ import 'package:ikinci_el/core/extentions/padding_extentions.dart';
 import 'package:ikinci_el/core/extentions/radius_extentions.dart';
 import 'package:ikinci_el/core/models/record_detail.dart';
 import 'package:ikinci_el/core/providers/auth_provider.dart';
-import 'package:ikinci_el/ui/widgets/buttons/filled_buttons.dart';
 import 'package:ikinci_el/ui/widgets/buttons/go_back_button.dart';
 import 'package:ikinci_el/ui/widgets/buttons/simple_button.dart';
 import 'package:provider/provider.dart';

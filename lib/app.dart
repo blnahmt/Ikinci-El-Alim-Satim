@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ikinci_el/core/constants/colors.dart';
 import 'package:ikinci_el/core/theme/theme.dart';
 import 'core/navigation/navigation_service.dart';
 import 'core/navigation/routes.dart';

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:ikinci_el/core/enums/category_enum.dart';
 
 class RecordDetail {

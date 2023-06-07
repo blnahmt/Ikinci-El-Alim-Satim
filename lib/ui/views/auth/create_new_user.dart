@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:ikinci_el/core/constants/colors.dart';
 import 'package:ikinci_el/core/database/firebase_storage.dart';
 import 'package:ikinci_el/core/database/firestore.dart';
 import 'package:ikinci_el/core/enums/app_images_enum.dart';
@@ -65,7 +66,7 @@ class _CreateNewUserViewState extends State<CreateNewUserView> {
           iconTheme: context.themeData.iconTheme,
           title: Text(
             "Create Profile",
-            style: context.textTheme.headline6,
+            style: context.textTheme.headlineSmall,
           ),
         ),
         body: SingleChildScrollView(
@@ -117,13 +118,13 @@ class _CreateNewUserViewState extends State<CreateNewUserView> {
                             borderSide: BorderSide.none),
                         labelText: "Telefon Numarası",
                         labelStyle: context
-                            .themeData.accentTextTheme.bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600)),
+                            .themeData.textTheme.bodyMedium!
+                            .copyWith(color:AppColors.fieryRose,fontWeight: FontWeight.w600)),
                   ),
                 ),
                 Padding(
                   padding: context.paddingHighOnly(top: true),
-                  child: FilledButton(
+                  child: MyFilledButton(
                       isLoading: isLoading,
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
@@ -158,10 +159,10 @@ class _CreateNewUserViewState extends State<CreateNewUserView> {
                                     content: Text(
                                       "Hatalı numara girdiniz !!",
                                       style: context
-                                          .themeData.accentTextTheme.bodyLarge,
+                                          .themeData.textTheme.bodyLarge?.copyWith(color: AppColors.fieryRose,)
                                     ),
                                     actions: [
-                                      FilledButton(
+                                      MyFilledButton(
                                           onTap: (() =>
                                               NavigationService().back()),
                                           label: "Kapat")
@@ -178,10 +179,10 @@ class _CreateNewUserViewState extends State<CreateNewUserView> {
                                   content: Text(
                                     "Lütfen telefon numarası giriniz !!",
                                     style: context
-                                        .themeData.accentTextTheme.bodyLarge,
+                                        .themeData.textTheme.bodyLarge?.copyWith(color: AppColors.fieryRose),
                                   ),
                                   actions: [
-                                    FilledButton(
+                                    MyFilledButton(
                                         onTap: (() =>
                                             NavigationService().back()),
                                         label: "Kapat")

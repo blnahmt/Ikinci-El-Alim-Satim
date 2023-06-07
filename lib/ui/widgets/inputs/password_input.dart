@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ikinci_el/core/constants/colors.dart';
 import 'package:ikinci_el/core/extentions/context_extentions.dart';
 import 'package:ikinci_el/core/extentions/radius_extentions.dart';
 import 'package:ikinci_el/core/extentions/string_extentions.dart';
@@ -48,7 +49,7 @@ class _PasswordInputState extends State<PasswordInput> {
             border: OutlineInputBorder(
                 borderRadius: context.radiusLow, borderSide: BorderSide.none),
             labelText: "Şifre",
-            labelStyle: context.themeData.accentTextTheme.bodyMedium!
-                .copyWith(fontWeight: FontWeight.w600)));
+            labelStyle: context.themeData.textTheme.bodyMedium!
+                .copyWith(color:AppColors.fieryRose,fontWeight: FontWeight.w600)));
   }
 }
