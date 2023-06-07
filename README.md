@@ -2,7 +2,7 @@
 
 A secondhand sell/buy app made with Flutter. This App was created to train my skills in Flutter
 
---[##Demo App](https://github.com/blnahmt/Ikinci-El-Alim-Satim/releases/download/release/hive-example-arm64-v8a-release.apk)
+## --[Demo App](https://github.com/blnahmt/Ikinci-El-Alim-Satim/releases/download/release/hive-example-arm64-v8a-release.apk)
 ## Screenshots
 
 ![App Screenshot](/screenshots/1.png)
